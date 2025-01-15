@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .login-container {
+    width: 300px;
+    margin: 50px auto;
+  }
+  
+  .ticket-form {
+    padding: 20px;
+  }
+  
+  mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+  

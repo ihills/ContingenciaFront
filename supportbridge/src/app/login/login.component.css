@@ -1,0 +1,17 @@
+/* login.component.css */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    background-color: white; /* Fondo blanco */
+  }
+  
+  mat-card {
+    width: 300px; /* Ancho del formulario */
+  }
+  
+  mat-card-title {
+    text-align: center; /* Centrar el título */
+  }
+  
