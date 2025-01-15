@@ -1,0 +1,38 @@
+-- public.tickets definition
+
+-- Drop table
+
+-- DROP TABLE public.tickets;
+
+CREATE TABLE public.tickets (
+	id serial4 NOT NULL,
+	user_id int4 NULL,
+	title varchar(100) NOT NULL,
+	description text NOT NULL,
+	status varchar(50) DEFAULT 'Open'::character varying NULL,
+	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	CONSTRAINT tickets_pkey PRIMARY KEY (id)
+);
+
+
+-- public.tickets foreign keys
+
+ALTER TABLE public.tickets ADD CONSTRAINT tickets_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+
+-- public.users definition
+
+-- Drop table
+
+-- DROP TABLE public.users;
+
+CREATE TABLE public.users (
+	id serial4 NOT NULL,
+	username varchar(50) NOT NULL,
+	"password" varchar(255) NOT NULL,
+	email varchar(100) NOT NULL,
+	CONSTRAINT users_email_key UNIQUE (email),
+	CONSTRAINT users_pkey PRIMARY KEY (id),
+	CONSTRAINT users_username_key UNIQUE (username)
+);
