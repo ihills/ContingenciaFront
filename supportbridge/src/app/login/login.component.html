@@ -1,21 +1,24 @@
-<div class="login-container">
-    <mat-card>
-      <mat-card-title>Iniciar Sesión</mat-card-title>
-      <mat-card-content>
-        <form (ngSubmit)="login()">
-          <mat-form-field appearance="fill">
-            <mat-label>Nombre de Usuario</mat-label>
-            <input matInput [(ngModel)]="username" name="username" required>
-          </mat-form-field>
-  
-          <mat-form-field appearance="fill">
-            <mat-label>Contraseña</mat-label>
-            <input matInput [(ngModel)]="password" name="password" type="password" required>
-          </mat-form-field>
-  
-          <button mat-raised-button color="primary" type="submit">Ingresar</button>
-        </form>
-      </mat-card-content>
-    </mat-card>
+<div class="login-container d-flex justify-content-center align-items-center" style="height: 100vh; background-color: #f8f9fa;">
+  <div class="card" style="width: 300px;">
+    <!-- Imagen sobre la tarjeta -->
+    <img src="assets/Nuevo-Logo-CoasinLogicalis.png" class="card-img-top" alt="Logo" style="width: 100%; height: auto;">
+
+    <div class="card-body">
+      <form (ngSubmit)="login()">
+        
+        <div class="mb-3">
+          <label for="username" class="form-label">Nombre de Usuario</label>
+          <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" required>
+        </div>
+
+        <button type="submit" class="btn" style="background-color: #f44336; color: white; width: 100%;">Ingresar</button> 
+
+      </form>
+    </div>
   </div>
-  
+</div>

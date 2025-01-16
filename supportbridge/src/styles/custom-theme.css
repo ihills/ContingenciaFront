@@ -1,0 +1,21 @@
+.mat-card {
+  background-color: white; /* Fondo blanco */
+  border: 1px solid red; /* Bordes rojos */
+}
+
+.mat-form-field {
+  border: 1px solid red; /* Bordes rojos para el campo de formulario */
+}
+
+.mat-input-element {
+  background-color: white; /* Fondo blanco para el input */
+  border: 1px solid red; /* Bordes rojos para el input */
+}
+
+.mat-select {
+  border: 1px solid red; /* Bordes rojos para el select */
+}
+
+.mat-select .mat-select-trigger {
+  background-color: white; /* Fondo blanco para el trigger del select */
+}

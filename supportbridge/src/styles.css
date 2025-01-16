@@ -1,4 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+.mat-toolbar {
+  background-color: red !important; /* Fondo rojo */
+  color: white !important; /* Texto blanco */
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mat-button, .mat-raised-button, .mat-flat-button {
+  background-color: red !important; /* Fondo rojo */
+  color: white !important; /* Texto blanco */
+}
+
+.mat-button:hover, .mat-raised-button:hover, .mat-flat-button:hover {
+  background-color: darkred !important; /* Color más oscuro al pasar el ratón */
+}

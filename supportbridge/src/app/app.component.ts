@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-root',
@@ -6,14 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   
+  constructor(private router: Router) {} 
+
   logout() {
-    // Lógica para cerrar sesión (puedes agregar lo que necesites aquí)
-    console.log('Cerrando sesión...');
-    
-    // Ejemplo: eliminar token del localStorage
     localStorage.removeItem('token');
-    
-    // Redirigir al login (si usas router)
-    // this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(success => {
+      if (success) {
+      } else {
+      }
+    }).catch(err => {
+      alert('Error al eliminar token');
+    });
   }
 }

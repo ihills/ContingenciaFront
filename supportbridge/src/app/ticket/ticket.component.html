@@ -1,25 +1,98 @@
-<div class="ticket-form-container">
-    <h2>Crear Ticket</h2>
-    <form [formGroup]="ticketForm" (ngSubmit)="submit()">
-      <mat-form-field appearance="fill">
-        <mat-label>ID de Usuario</mat-label>
-        <input matInput formControlName="user_id" required>
-        <mat-error *ngIf="ticketForm.get('user_id')?.hasError('required')">Este campo es obligatorio.</mat-error>
-      </mat-form-field>
-  
-      <mat-form-field appearance="fill">
-        <mat-label>Título</mat-label>
-        <input matInput formControlName="title" required>
-        <mat-error *ngIf="ticketForm.get('title')?.hasError('required')">Este campo es obligatorio.</mat-error>
-      </mat-form-field>
-  
-      <mat-form-field appearance="fill">
-        <mat-label>Descripción</mat-label>
-        <textarea matInput formControlName="description" required></textarea>
-        <mat-error *ngIf="ticketForm.get('description')?.hasError('required')">Este campo es obligatorio.</mat-error>
-      </mat-form-field>
-  
-      <button mat-raised-button color="primary" type="submit">Enviar Ticket</button>
-    </form>
+<div class="ticket-form-container d-flex justify-content-center align-items-center" style="height: 100vh; background-color: #f8f9fa;">
+  <div class="card" style="width: 600px;">
+    <div class="card-header text-center" style="background-color: #f44336; color: white;">
+      Nuevo Ticket
+    </div>
+    
+    <div class="card-body">
+      <form [formGroup]="ticketForm" (ngSubmit)="submit()">
+        <!-- Columna izquierda -->
+        <div class="row mb-3">
+
+          <!-- Usuario -->
+          <div class="col-md-6">
+            <label for="user_id" class="form-label">Usuario</label>
+            <input type="text" class="form-control" id="user_id" formControlName="user_id" required />
+          </div>
+
+          <!-- Empresa -->
+          <div class="col-md-6">
+            <label for="companyid" class="form-label">Empresa</label>
+            <select id="companyid" class="form-select" formControlName="companyid" required>
+              <option *ngFor="let company of dCompanies" [value]="company.companyid">{{ company.company_name }}</option>
+            </select>
+          </div>
+
+          <!-- Categoría -->
+          <div class="col-md-6 mt-3">
+            <label for="categoryid" class="form-label">Categoría</label>
+            <select id="categoryid" class="form-select" formControlName="categoryid" required>
+              <option *ngFor="let category of dCategories" [value]="category.categoryid">{{ category.categoryname }}</option>
+            </select>
+          </div>
+
+          <!-- Subcategoría -->
+          <div class="col-md-6 mt-3">
+            <label for="subcategoryid" class="form-label">Subcategoría</label>
+            <select id="subcategoryid" class="form-select" formControlName="subcategoryid" required>
+              <option *ngFor="let subcategory of dSubcategory" [value]="subcategory.subcategoryid">{{ subcategory.subcategoryname }}</option>
+            </select>
+          </div>
+
+          <!-- Subestado -->
+          <div class="col-md-6 mt-3">
+            <label for="substateid" class="form-label">Subestado</label>
+            <select id="substateid" class="form-select" formControlName="substateid" required>
+              <option *ngFor="let substate of dSubstate" [value]="substate.substateid">{{ substate.substatename }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mt-3">
+            <label for="priorityid" class="form-label">Prioridad</label>
+            <select id="priorityid" class="form-select" formControlName="priorityid" required>
+              <option *ngFor="let priority of dPriority" [value]="priority.priorityid">{{ priority.priorityname }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mt-3">
+            <label for="incidenttypeid" class="form-label">Tipo de Incidente</label>
+            <select id="incidenttypeid" class="form-select" formControlName="incidenttypeid" required>
+              <option *ngFor="let incidenttype of dIncidenttype" [value]="incidenttype.it_id">{{ incidenttype.it_name }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mt-3">
+            <label for="domainid" class="form-label">Dominio</label>
+            <select id="domainid" class="form-select" formControlName="domainid" required>
+              <option *ngFor="let domain of dDomains" [value]="domain.snd_id">{{ domain.snd_name }}</option>
+            </select>
+          </div>
+
+          <!-- Fecha de Creación -->
+          <div class = "col-md-12 mt-3"> 
+            <label>Fecha de Creación:</label> {{ticketForm.get('created_at')?.value | date:'short'}}
+          </div>
+
+          <!-- Descripción Corta -->
+          <div class = "col-md-12 mt-3">
+            <label for = "shortdesc" class = "form-label">Descripción Corta</label>
+            <textarea id = "shortdesc" rows = "2" class = "form-control" formControlName = "shortdesc"></textarea>
+          </div>
+
+          <!-- Descripción -->
+          <div class = "col-md-12 mt-3">
+            <label for = "description" class = "form-label">Descripción</label>
+            <textarea id = "description" rows = "4" class = "form-control" formControlName = "description"></textarea>
+          </div>
+
+          <!-- Botón de enviar -->
+          <div class="container-fluid vh-50 d-flex justify-content-center align-items-center" style="background-color: #f8f9fa;">
+            <button type="submit" style="background-color: #f44336; color: white;" class="btn w-50">Grabar Ticket</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
   </div>
-  
+</div>
+
