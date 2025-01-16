@@ -61,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "supportbridge:build:production"
+              "buildTarget": "supportbridge:build:production"
             },
             "development": {
-              "browserTarget": "supportbridge:build:development"
+              "buildTarget": "supportbridge:build:development"
             }
           },
           "defaultConfiguration": "development"
