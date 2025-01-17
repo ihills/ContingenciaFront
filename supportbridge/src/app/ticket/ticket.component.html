@@ -11,8 +11,7 @@
 
           <!-- Usuario -->
           <div class="col-md-6">
-            <label for="user_id" class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="user_id" formControlName="user_id" required />
+            <label for="user_id" class="form-label">Usuario : {{vUserName}}</label>
           </div>
 
           <!-- Empresa -->
@@ -85,7 +84,15 @@
             <textarea id = "description" rows = "4" class = "form-control" formControlName = "description"></textarea>
           </div>
 
-          <!-- Botón de enviar -->
+          <div *ngIf="successMessage" class="alert alert-success">
+            {{ successMessage }}
+          </div>
+        
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+
+          <!-- Botón de grabar -->
           <div class="container-fluid vh-50 d-flex justify-content-center align-items-center" style="background-color: #f8f9fa;">
             <button type="submit" style="background-color: #f44336; color: white;" class="btn w-50">Grabar Ticket</button>
           </div>

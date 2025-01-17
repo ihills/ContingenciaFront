@@ -12,13 +12,13 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
     
-    const isLoggedIn = !!localStorage.getItem('token'); // Verifica si hay un token
+    const isLoggedIn = !!localStorage.getItem('token'); 
 
     if (isLoggedIn) {
-      return true; // Permite el acceso
+      return true; 
     } else {
-      this.router.navigate(['/login']); // Redirige al login si no está autenticado
-      return false; // Bloquea el acceso
+      this.router.navigate(['/login']);
+      return false; 
     }
   }
 }

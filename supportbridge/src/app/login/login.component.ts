@@ -16,10 +16,9 @@ export class LoginComponent {
   login() {
     this.apiService.login({ username: this.username, password: this.password })
       .subscribe(response => {
-        localStorage.setItem('token', response.token); // Guarda el token en localStorage
-        this.router.navigate(['/dashboard']); // Redirige al dashboard
+        localStorage.setItem('token', response.token); 
+        this.router.navigate(['/dashboard']); 
       }, error => {
-        console.error('Error en el login', error);
       });
   }
 }

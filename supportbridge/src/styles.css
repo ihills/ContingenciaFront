@@ -1,13 +1,13 @@
 .mat-toolbar {
-  background-color: red !important; /* Fondo rojo */
-  color: white !important; /* Texto blanco */
+  background-color: red !important;
+  color: white !important; 
 }
 
 .mat-button, .mat-raised-button, .mat-flat-button {
-  background-color: red !important; /* Fondo rojo */
-  color: white !important; /* Texto blanco */
+  background-color: red !important; 
+  color: white !important; 
 }
 
 .mat-button:hover, .mat-raised-button:hover, .mat-flat-button:hover {
-  background-color: darkred !important; /* Color más oscuro al pasar el ratón */
+  background-color: darkred !important; 
 }

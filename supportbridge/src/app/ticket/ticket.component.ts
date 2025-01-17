@@ -4,7 +4,6 @@ import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 
-
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
@@ -19,8 +18,10 @@ export class TicketComponent implements OnInit {
   dIncidenttype : any;
   dDomains : any;
   dPriority : any;
+  dUserData : any;
 
   vUser_id : any; 
+  vUserName : any; 
   vTitle : any;
   vDescription : any; 
   vStatus : any;
@@ -37,6 +38,8 @@ export class TicketComponent implements OnInit {
   
   currentUser: any;
 
+  successMessage: string = '';
+  errorMessage: string = '';
 
   constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {
     this.ticketForm = this.fb.group({
@@ -69,24 +72,35 @@ export class TicketComponent implements OnInit {
   }
 
   loadUserData() {
-    const token = localStorage.getItem('token'); // Obtener el token del localStorage
+    const token = localStorage.getItem('token');
     if (token) {
-      this.currentUser = jwtDecode(token); // Decodificar el token
-      console.log('Datos del usuario:', this.currentUser); // Ver los datos del usuario en la consola
-      // Aquí puedes asignar el user_id al formulario si es necesario
-      this.ticketForm.patchValue({ user_id: this.currentUser.id }); // Asumiendo que 'id' es la propiedad que contiene el ID del usuario
+      this.currentUser = jwtDecode(token); 
+      this.vUser_id = this.currentUser.id;
+      this.loadUser();
+      this.ticketForm.patchValue({ user_id: this.vUserName });
     }
   }
 
   submit() {
-
+    this.ticketForm.patchValue({ user_id: this.vUser_id });
+  
     if (this.ticketForm.valid) {
-
-      this.apiService.createTicket(this.ticketForm.value).subscribe(response => {
-        this.router.navigate(['/tickets']); // Redirige a la lista de tickets después de crear
-      }, error => {
-      });
-
+      this.apiService.createTicket(this.ticketForm.value).subscribe(
+        response => {
+          this.successMessage = 'Ticket guardado correctamente!';
+          this.errorMessage = ''; 
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 3000);
+        },
+        error => {
+          this.errorMessage = 'Error al guardar el ticket. Por favor, verifica los datos.';
+          this.successMessage = ''; 
+        }
+      );
+    } else {
+      this.errorMessage = 'Por favor, completa todos los campos requeridos.';
+      this.successMessage = '';
     }
   }
 
@@ -109,7 +123,19 @@ export class TicketComponent implements OnInit {
       }
     );
   }
-  
+
+  loadUser() {
+    this.apiService.getUser({ userid: this.vUser_id }).subscribe(
+      (data) => {
+        this.dUserData = data;
+        this.vUser_id = this.dUserData[0].id;
+        this.vUserName = this.dUserData[0].username;
+      },
+      (error) => {
+      }
+    );
+  }
+
   loadSubcategory() {
     this.apiService.getSubcategory().subscribe(
       (data) => {
