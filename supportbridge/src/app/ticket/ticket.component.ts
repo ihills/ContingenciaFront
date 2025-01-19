@@ -3,6 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+
+interface Company {
+  companyid: string;
+  company_name: string;
+}
 
 @Component({
   selector: 'app-ticket',
@@ -10,6 +17,10 @@ import { jwtDecode } from 'jwt-decode';
 })
 
 export class TicketComponent implements OnInit {
+  
+  companyControl: FormControl = new FormControl('');
+  filteredCompanies: Company[] = []; // Lista filtrada de empresas
+  
   ticketForm: FormGroup;
   dCategories : any;
   dCompanies : any;
@@ -69,6 +80,37 @@ export class TicketComponent implements OnInit {
     this.loadIncidenttype();
     this.loadDomains();
     this.loadPriority(); 
+
+    this.companyControl = new FormControl(); // Inicializa el FormControl
+
+    this.companyControl.valueChanges.pipe(
+      debounceTime(300), // Espera a que el usuario deje de escribir
+      distinctUntilChanged() // Evita búsquedas repetidas si no hay cambios
+    ).subscribe(value => {
+      if (value && value.length >= 3) {
+        this.filterCompanies(value);
+      } else {
+        this.filteredCompanies = [];
+      }
+    });
+
+  }
+  
+  filterCompanies(searchTerm: string) {
+    this.filteredCompanies = this.dCompanies.filter((company: Company) =>
+      company.company_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  selectCompany(company: any) {
+    this.companyControl.setValue(company.company_name); // Muestra el nombre en el campo de entrada
+    this.filteredCompanies = []; // Oculta la lista desplegable
+    console.log('Empresa seleccionada:', company);
+  }
+
+  onInputChange() {
+    // Este método puede ser opcional dependiendo de cómo manejes el evento
+    console.log('Valor ingresado:', this.companyControl.value);
   }
 
   loadUserData() {

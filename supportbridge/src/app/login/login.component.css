@@ -33,3 +33,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 20px;  
   width: 300px; /* Ancho del formulario */
 }
+.image-container {
+  width: 100%; /* O el ancho que desees */
+  padding: 20px; /* Margen alrededor del contenedor */
+  box-sizing: border-box; /* Incluye el padding en el ancho total */
+}
+
+.foto {
+  max-width: 100%; /* Asegura que la imagen no exceda el contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+  margin-top: 20px; /* Margen superior de 20px */
+  margin-left: auto; /* Centra la imagen horizontalmente */
+  margin-right: auto; /* Centra la imagen horizontalmente */
+  display: block; /* Necesario para centrar la imagen con márgenes automáticos */
+}
+

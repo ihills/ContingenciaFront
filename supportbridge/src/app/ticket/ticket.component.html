@@ -1,5 +1,5 @@
 <div class="ticket-form-container d-flex justify-content-center align-items-center" style="height: 100vh; background-color: #f8f9fa;">
-  <div class="card" style="width: 600px;">
+  <div class="card" style="width: 70%;">
     <div class="card-header text-center" style="background-color: #f44336; color: white;">
       Nuevo Ticket
     </div>
@@ -14,13 +14,37 @@
             <label for="user_id" class="form-label">Usuario : {{vUserName}}</label>
           </div>
 
-          <!-- Empresa -->
+          <!-- Empresa 
           <div class="col-md-6">
             <label for="companyid" class="form-label">Empresa</label>
             <select id="companyid" class="form-select" formControlName="companyid" required>
               <option *ngFor="let company of dCompanies" [value]="company.companyid">{{ company.company_name }}</option>
             </select>
           </div>
+          -->
+          <div class="col-md-6 position-relative">
+            <label for="companyid" class="form-label">Empresa</label>
+            <input
+              id="companyid"
+              type="text"
+              class="form-control"
+              [formControl]="companyControl"
+              (input)="onInputChange()"
+              placeholder="Buscar empresa..."
+            />
+          
+            <!-- Lista desplegable para las opciones -->
+            <ul *ngIf="filteredCompanies.length > 0" class="list-group position-absolute" style="z-index: 1000;">
+              <li
+                *ngFor="let company of filteredCompanies"
+                (click)="selectCompany(company)"
+                class="list-group-item list-group-item-action"
+              >
+                {{ company.company_name }}
+              </li>
+            </ul>
+          </div>
+          
 
           <!-- Categoría -->
           <div class="col-md-6 mt-3">
@@ -91,8 +115,9 @@
           <div *ngIf="errorMessage" class="alert alert-danger">
             {{ errorMessage }}
           </div>
+          
+          <br>
 
-          <!-- Botón de grabar -->
           <div class="container-fluid vh-50 d-flex justify-content-center align-items-center" style="background-color: #f8f9fa;">
             <button type="submit" style="background-color: #f44336; color: white;" class="btn w-50">Grabar Ticket</button>
           </div>

@@ -11,3 +11,17 @@
 .mat-button:hover, .mat-raised-button:hover, .mat-flat-button:hover {
   background-color: darkred !important; 
 }
+
+body {
+  user-select: none; /* Impide la selección de texto en todo el cuerpo */
+  font-family: 'Roboto Slab', serif;
+}
+h1, h2, h3 {
+  font-family: 'Roboto Slab', serif;
+  font-weight: 700; /* Para títulos */
+}
+p {
+  font-family: 'Roboto Slab', serif;
+  font-weight: 400; /* Para párrafos */
+}
+

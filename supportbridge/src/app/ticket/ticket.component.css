@@ -9,3 +9,9 @@
     width: 100%; /* Asegúrate de que los campos ocupen todo el ancho */
   }
   
+  .list-group {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  
