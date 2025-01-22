@@ -27,6 +27,10 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/tickets`, ticket);
   }
 
+  getCatalogue(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/catalogue`);
+  }
+
   getCompanies(): Observable<any> {
     return this.http.get(`${this.apiUrl}/companies`);
   }

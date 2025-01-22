@@ -1,129 +1,366 @@
-<div class="ticket-form-container d-flex justify-content-center align-items-center" style="height: 100vh; background-color: #f8f9fa;">
-  <div class="card" style="width: 70%;">
-    <div class="card-header text-center" style="background-color: #f44336; color: white;">
-      Nuevo Ticket
+<div 
+  class="ticket-form-container d-flex justify-content-center align-items-center" 
+  style="background-color: #f8f9fa;">
+  <div 
+    class="card" 
+    style="width: 80%;">
+    <div 
+      class="card-header text-center" 
+      style="background-color: #f44336; color: white;">
+      Ingreso de Ticket
     </div>
-    
-    <div class="card-body">
-      <form [formGroup]="ticketForm" (ngSubmit)="submit()">
-        <!-- Columna izquierda -->
-        <div class="row mb-3">
-
-          <!-- Usuario -->
-          <div class="col-md-6">
-            <label for="user_id" class="form-label">Usuario : {{vUserName}}</label>
-          </div>
-
-          <!-- Empresa 
-          <div class="col-md-6">
-            <label for="companyid" class="form-label">Empresa</label>
-            <select id="companyid" class="form-select" formControlName="companyid" required>
-              <option *ngFor="let company of dCompanies" [value]="company.companyid">{{ company.company_name }}</option>
+    <div 
+      class="card-body">
+      <form 
+        [formGroup]="ticketForm" 
+        (ngSubmit)="submit()">
+        
+        <div 
+          class="row mb-3">
+          <div 
+            class="col-md-6 mt-3">
+            <label 
+              for="categoryid" 
+              class="form-label">Categoría</label>
+            <select 
+              id="categoryid" 
+              class="form-select" 
+              formControlName="categoryid" 
+              required>
+              <option 
+                *ngFor="let category of dCategories" 
+                [value]="category.categoryid">{{ category.categoryname }}</option>
             </select>
           </div>
-          -->
-          <div class="col-md-6 position-relative">
-            <label for="companyid" class="form-label">Empresa</label>
-            <input
-              id="companyid"
-              type="text"
-              class="form-control"
-              [formControl]="companyControl"
-              (input)="onInputChange()"
-              placeholder="Buscar empresa..."
-            />
-          
-            <!-- Lista desplegable para las opciones -->
-            <ul *ngIf="filteredCompanies.length > 0" class="list-group position-absolute" style="z-index: 1000;">
-              <li
-                *ngFor="let company of filteredCompanies"
-                (click)="selectCompany(company)"
-                class="list-group-item list-group-item-action"
-              >
-                {{ company.company_name }}
-              </li>
-            </ul>
+          <div 
+            class="col-md-6 mt-3">
+            <label 
+              for="subcategoryid" 
+              class="form-label">Subcategoría</label>
+            <select 
+              id="subcategoryid" 
+              class="form-select" 
+              formControlName="subcategoryid" 
+              required>
+              <option 
+                *ngFor="let subcategory of dSubcategory" 
+                [value]="subcategory.subcategoryid">{{ subcategory.subcategoryname }}</option>
+            </select>
           </div>
-          
-
-          <!-- Categoría -->
+          <div 
+            class="col-md-6 mt-3">
+            <label 
+              for="substateid" 
+              class="form-label">Subestado</label>
+            <select 
+              id="substateid" 
+              class="form-select" 
+              formControlName="substateid" 
+              required>
+              <option 
+                *ngFor="let substate of dSubstate" 
+                [value]="substate.substateid">{{ substate.substatename }}</option>
+            </select>
+          </div>
+          <div 
+            class="col-md-6 mt-3">
+            <label 
+              for="priorityid" 
+              class="form-label">Prioridad</label>
+            <select 
+              id="priorityid" 
+              class="form-select" 
+              formControlName="priorityid" 
+              required>
+              <option 
+                *ngFor="let priority of dPriority" 
+                [value]="priority.priorityid">{{ priority.priorityname }}</option>
+            </select>
+          </div>
+          <div 
+            class="col-md-6 mt-3">
+            <label 
+              for="incidenttypeid" 
+              class="form-label">Tipo de Incidente</label>
+            <select 
+              id="incidenttypeid" 
+              class="form-select" 
+              formControlName="incidenttypeid" 
+              required>
+              <option 
+                *ngFor="let incidenttype of dIncidenttype" 
+                [value]="incidenttype.it_id">{{ incidenttype.it_name }}</option>
+            </select>
+          </div>
+          <div 
+            class="col-md-6 mt-3">
+            <label 
+              for="domainid" 
+              class="form-label">Dominio</label>
+            <select 
+              id="domainid" 
+              class="form-select" 
+              formControlName="domainid" 
+              required>
+              <option 
+                *ngFor="let domain of dDomains" 
+                [value]="domain.snd_id">{{ domain.snd_name }}</option>
+            </select>
+          </div>
+<!--
           <div class="col-md-6 mt-3">
-            <label for="categoryid" class="form-label">Categoría</label>
-            <select id="categoryid" class="form-select" formControlName="categoryid" required>
-              <option *ngFor="let category of dCategories" [value]="category.categoryid">{{ category.categoryname }}</option>
+            <label for="cat_id" class="form-label">Catálogo</label>
+            <select id="cat_id" class="form-select" formControlName="cat_id" (change)="onCatalogChange($event)" required>
+              <option *ngFor="let catalogo of dCatalogue" [value]="catalogo.cat_id">{{ catalogo.cat_name }}</option>
             </select>
           </div>
+-->
+          <div 
+            class="card mt-3">
+            <div 
+              class="card-header" 
+              style="background-color: #f44336; color: white;">
+              Seleccionar Catálogo
+            </div>
+            <div 
+              class="card-body">
+              <div 
+                class="col-md-6">
+                <label 
+                  for="cat_id" 
+                  class="form-label">Catálogo</label>
+                <select 
+                  id="cat_id" 
+                  class="form-select" 
+                  formControlName="cat_id" 
+                  (change)="onCatalogChange($event)" 
+                  required>
+                  <option 
+                    *ngFor="let catalogo of dCatalogue" 
+                    [value]="catalogo.cat_id">{{ catalogo.cat_name }}</option>
+                </select>
+              </div>
 
-          <!-- Subcategoría -->
-          <div class="col-md-6 mt-3">
-            <label for="subcategoryid" class="form-label">Subcategoría</label>
-            <select id="subcategoryid" class="form-select" formControlName="subcategoryid" required>
-              <option *ngFor="let subcategory of dSubcategory" [value]="subcategory.subcategoryid">{{ subcategory.subcategoryname }}</option>
-            </select>
+              <div 
+                *ngIf="selectedCatalog" 
+                class="mt-3">
+                <h5>Detalles del Catálogo Seleccionado</h5>
+                <p><strong>Servicio:</strong> {{ selectedCatalog.cat_service }}</p>
+                <p><strong>Ámbito:</strong> {{ selectedCatalog.cat_environment }}</p>
+                <p><strong>Plataforma:</strong> {{ selectedCatalog.cat_platform }}</p>
+                <p><strong>Especificación:</strong> {{ selectedCatalog.cat_specification }}</p>
+              </div>
+
+              <div 
+                *ngIf="!selectedCatalog" 
+                class="mt-3">
+                <p>No se ha seleccionado ningún catálogo.</p>
+              </div>
+            </div>
           </div>
 
-          <!-- Subestado -->
-          <div class="col-md-6 mt-3">
-            <label for="substateid" class="form-label">Subestado</label>
-            <select id="substateid" class="form-select" formControlName="substateid" required>
-              <option *ngFor="let substate of dSubstate" [value]="substate.substateid">{{ substate.substatename }}</option>
-            </select>
+          <!-- Card para datos del solicitante -->
+          <div 
+            class="col-md-12 mt-3">
+            <div 
+              class="card">
+              <div 
+                class="card-header" 
+                style="background-color: #f44336; color: white;">
+      
+                Datos del Solicitante
+              </div>
+              <div 
+                class="card-body">
+                <div 
+                  class="mb-3">
+                  <label 
+                    for="planned_for" 
+                    class="form-label">Solicitante</label>
+                  <input 
+                    type="text" 
+                    id="planned_for" 
+                    formControlName="planned_for" 
+                    class="form-control" 
+                    required />
+                </div>
+
+                <div 
+                  class="mb-3">
+                  <label 
+                    for="contact_type" 
+                    class="form-label">Tipo de Contacto</label>
+                  <select 
+                    id="contact_type" 
+                    formControlName="contact_type" 
+                    class="form-select" 
+                    required>
+                    <option 
+                      value="">Seleccione...</option>
+                    <option 
+                      value="Telefono">Teléfono</option>
+                    <option 
+                      value="Email">Email</option>
+                    <option 
+                      value="Otro">Otro</option>
+                  </select>
+                </div>
+
+                <div 
+                  class="mb-3">
+                  <label 
+                    for="applicant" 
+                    class="form-label">Previsto Para</label>
+                  <input 
+                    type="text" 
+                    id="applicant" 
+                    formControlName="applicant" 
+                    class="form-control" 
+                    required />
+                </div>
+
+                <div 
+                  class="mb-3">
+                  <label 
+                    for="planned_rut" 
+                    class="form-label">RUT Contacto</label>
+                  <input 
+                    type="text" 
+                    id="planned_rut" 
+                    formControlName="planned_rut" 
+                    pattern="\d{8}-[0-9kK]" 
+                    placeholder='Formato : 99999999-X' 
+                    title='Formato : 99999999-X' 
+                    class='form-control' required />
+                </div>
+
+                <div 
+                  class='mb-3'>
+                  <label 
+                    for='planned_email' 
+                    class='form-label'>Correo Contacto</label>
+                  <input 
+                    type='email' 
+                    id='planned_email' 
+                    formControlName='planned_email' 
+                    placeholder='example@domain.com' 
+                    title='Formato : example@domain.com' 
+                    required 
+                    class='form-control'/>
+                </div>
+
+                <div 
+                  class='mb-3'>
+                  <label 
+                    for='planned_email' 
+                    class='form-label'>Teléfono Contacto</label>
+                  <input 
+                    type='phone' 
+                    id='phone_number' 
+                    formControlName='phone_number' 
+                    placeholder='99999999' 
+                    title='Teléfono' 
+                    required 
+                    class='form-control'/>
+                </div>
+
+                <div 
+                  class='mb-3'>
+                  <label 
+                    for='planned_charge' 
+                    class='form-label'>Cargo Contacto</label>
+                  <input 
+                    type='text' 
+                    id='planned_charge' 
+                    formControlName='planned_charge' 
+                    required 
+                    placeholder='Cargo del solicitante'
+                    title='Ingrese el cargo del solicitante'
+                    class='form-control'/>
+                </div>
+                <hr>
+                <div 
+                  class="col-md-6 position-relative">
+                  <label 
+                    for="companyid" 
+                    class="form-label">Empresa</label>
+                  <input
+                    id="companyid"
+                    type="text"
+                    class="form-control"
+                    [formControl]="companyControl"
+                    (input)="onInputChange()"
+                    placeholder="Buscar empresa..."
+                  />
+                  <ul 
+                    *ngIf="filteredCompanies.length > 0" 
+                    class="list-group position-absolute" 
+                    style="z-index: 1000;">
+                    <li
+                      *ngFor="let company of filteredCompanies"
+                      (click)="selectCompany(company)"
+                      class="list-group-item list-group-item-action"
+                    >
+                      {{ company.company_name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="col-md-6 mt-3">
-            <label for="priorityid" class="form-label">Prioridad</label>
-            <select id="priorityid" class="form-select" formControlName="priorityid" required>
-              <option *ngFor="let priority of dPriority" [value]="priority.priorityid">{{ priority.priorityname }}</option>
-            </select>
+          <div 
+            class = "col-md-12 mt-3">
+            <label 
+              for = "shortdesc" 
+              class = "form-label">Cual es su incidente?</label>
+            <textarea 
+              id = "shortdesc" 
+              rows = "2" 
+              class = "form-control" 
+              formControlName = "shortdesc"></textarea>
           </div>
-
-          <div class="col-md-6 mt-3">
-            <label for="incidenttypeid" class="form-label">Tipo de Incidente</label>
-            <select id="incidenttypeid" class="form-select" formControlName="incidenttypeid" required>
-              <option *ngFor="let incidenttype of dIncidenttype" [value]="incidenttype.it_id">{{ incidenttype.it_name }}</option>
-            </select>
+          <div 
+            class = "col-md-12 mt-3">
+            <label 
+              for = "description" 
+              class = "form-label">Favor detalle su caso</label>
+            <textarea 
+              id = "description" 
+              rows = "4" 
+              class = "form-control" 
+              formControlName = "description"></textarea>
           </div>
-
-          <div class="col-md-6 mt-3">
-            <label for="domainid" class="form-label">Dominio</label>
-            <select id="domainid" class="form-select" formControlName="domainid" required>
-              <option *ngFor="let domain of dDomains" [value]="domain.snd_id">{{ domain.snd_name }}</option>
-            </select>
-          </div>
-
-          <!-- Fecha de Creación -->
-          <div class = "col-md-12 mt-3"> 
-            <label>Fecha de Creación:</label> {{ticketForm.get('created_at')?.value | date:'short'}}
-          </div>
-
-          <!-- Descripción Corta -->
-          <div class = "col-md-12 mt-3">
-            <label for = "shortdesc" class = "form-label">Descripción Corta</label>
-            <textarea id = "shortdesc" rows = "2" class = "form-control" formControlName = "shortdesc"></textarea>
-          </div>
-
-          <!-- Descripción -->
-          <div class = "col-md-12 mt-3">
-            <label for = "description" class = "form-label">Descripción</label>
-            <textarea id = "description" rows = "4" class = "form-control" formControlName = "description"></textarea>
-          </div>
-
-          <div *ngIf="successMessage" class="alert alert-success">
+          <div 
+            *ngIf="successMessage" 
+            class="alert alert-success">
             {{ successMessage }}
           </div>
-        
-          <div *ngIf="errorMessage" class="alert alert-danger">
+          <div 
+            *ngIf="errorMessage" 
+            class="alert alert-danger">
             {{ errorMessage }}
           </div>
-          
           <br>
-
-          <div class="container-fluid vh-50 d-flex justify-content-center align-items-center" style="background-color: #f8f9fa;">
-            <button type="submit" style="background-color: #f44336; color: white;" class="btn w-50">Grabar Ticket</button>
-          </div>
-
+          <div 
+            class="col-md-6">
+            <label 
+              for="user_id" 
+              class="form-label" 
+              style="color: white;">Usuario : {{vUserName}}</label>
+          </div>          
+          
+          <button 
+            type='submit' 
+            style='background-color:#f44336; color:white;' 
+            class='btn w-30 mt-3'>Grabar Ticket</button>
+          <button 
+            type='button' 
+            (click)='cancel()' 
+            style='background-color:#dba213; color:white;' 
+            class='btn w-30 mt-3'>Cancelar</button>
         </div>
-      </form>
+    </form>
     </div>
   </div>
 </div>

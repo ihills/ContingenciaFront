@@ -5,12 +5,24 @@ import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-
 interface Company {
   companyid: string;
   company_name: string;
 }
 
+interface Catalogue {
+  cat_id: number;
+  cat_name: string;
+  cat_service: string;
+  cat_environment: string;
+  cat_platform: string;
+  cat_specification: string;
+  cat_assigment_group: string;
+  cat_impact: number | null;
+  cat_urgency: number | null;
+  cat_sys_id: string;
+  cat_company: string;
+}
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
@@ -19,13 +31,14 @@ interface Company {
 export class TicketComponent implements OnInit {
   
   companyControl: FormControl = new FormControl('');
-  filteredCompanies: Company[] = []; // Lista filtrada de empresas
-  
+  filteredCompanies: Company[] = []; 
+
   ticketForm: FormGroup;
   dCategories : any;
   dCompanies : any;
   dSubcategory : any; 
   dSubstate : any;
+  dCatalogue : any;
   dIncidenttype : any;
   dDomains : any;
   dPriority : any;
@@ -41,16 +54,26 @@ export class TicketComponent implements OnInit {
   vCategoryid : any;
   vSubcategoryid : any; 
   vSubstateid : any; 
+  vCatalogue: any;
   vPriorityid : any;
   vIncidenttypeid : any; 
   vDomainid : any;
   vUpdated_at : any;
   vShortDesc : any;
-  
   currentUser: any;
 
   successMessage: string = '';
   errorMessage: string = '';
+
+  cat_assigment_group: any[] = [];
+  cat_environment: any[] = []; 
+  cat_impact: any[] = []; 
+  cat_platform: any[] = [];
+  cat_service: any[] = []; 
+  cat_specification: any[] = [];
+  cat_sys_id: any[] = []; 
+  cat_urgency: any[] = [];
+  selectedCatalog:any;
 
   constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {
     this.ticketForm = this.fb.group({
@@ -68,10 +91,19 @@ export class TicketComponent implements OnInit {
       updated_at: [''],
       shortdesc: ['', Validators.required],
       description: ['', Validators.required],
+      cat_id:['', Validators.required],
+      planned_for:['', Validators.required],
+      contact_type:['', Validators.required],
+      applicant:['', Validators.required],
+      planned_rut:['', Validators.required],
+      phone_number:[''],
+      planned_email:['', Validators.required],
+      planned_charge:['', Validators.required]
     });
   }
 
   ngOnInit() {
+
     this.loadUserData();
     this.loadCompanies();
     this.loadCategories();
@@ -79,13 +111,14 @@ export class TicketComponent implements OnInit {
     this.loadSubstate();
     this.loadIncidenttype();
     this.loadDomains();
+    this.loadCatalogue();
     this.loadPriority(); 
 
-    this.companyControl = new FormControl(); // Inicializa el FormControl
+    this.companyControl = new FormControl(); 
 
     this.companyControl.valueChanges.pipe(
-      debounceTime(300), // Espera a que el usuario deje de escribir
-      distinctUntilChanged() // Evita búsquedas repetidas si no hay cambios
+      debounceTime(300), 
+      distinctUntilChanged()
     ).subscribe(value => {
       if (value && value.length >= 3) {
         this.filterCompanies(value);
@@ -102,15 +135,31 @@ export class TicketComponent implements OnInit {
     );
   }
 
+  onCatalogChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedId = Number(selectElement.value);
+    this.getCatalogByID(selectedId);
+
+  }
+
+  getCatalogByID(selectedId:any){
+    this.selectedCatalog = this.dCatalogue.find((catalogo:any) => catalogo.cat_id === selectedId);
+    
+    if (this.selectedCatalog) {
+    } else {
+    }
+  }
+
   selectCompany(company: any) {
-    this.companyControl.setValue(company.company_name); // Muestra el nombre en el campo de entrada
-    this.filteredCompanies = []; // Oculta la lista desplegable
-    console.log('Empresa seleccionada:', company);
+    this.ticketForm.patchValue({
+      companyid: company.companyid, 
+    });
+    this.companyControl.setValue(company.company_name); 
+    this.filteredCompanies = [];
   }
 
   onInputChange() {
-    // Este método puede ser opcional dependiendo de cómo manejes el evento
-    console.log('Valor ingresado:', this.companyControl.value);
+    
   }
 
   loadUserData() {
@@ -125,7 +174,6 @@ export class TicketComponent implements OnInit {
 
   submit() {
     this.ticketForm.patchValue({ user_id: this.vUser_id });
-  
     if (this.ticketForm.valid) {
       this.apiService.createTicket(this.ticketForm.value).subscribe(
         response => {
@@ -146,6 +194,10 @@ export class TicketComponent implements OnInit {
     }
   }
 
+  cancel(){
+    this.router.navigate(['/dashboard']); 
+  }
+
   loadCategories() {
     this.apiService.getCategories().subscribe(
       (data) => {
@@ -160,6 +212,16 @@ export class TicketComponent implements OnInit {
     this.apiService.getCompanies().subscribe(
       (data) => {
         this.dCompanies = data;
+      },
+      (error) => {
+      }
+    );
+  }
+
+  loadCatalogue() {
+    this.apiService.getCatalogue().subscribe(
+      (data) => {
+        this.dCatalogue = data;
       },
       (error) => {
       }
