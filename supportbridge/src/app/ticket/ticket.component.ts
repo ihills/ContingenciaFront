@@ -40,9 +40,12 @@ export class TicketComponent implements OnInit {
   dSubstate : any;
   dCatalogue : any;
   dIncidenttype : any;
+  dSysUsers : any;
   dDomains : any;
   dPriority : any;
   dUserData : any;
+  v_plnned_rut : any;
+  v_company_id : any;
 
   vUser_id : any; 
   vUserName : any; 
@@ -52,6 +55,7 @@ export class TicketComponent implements OnInit {
   vCreated_at : any;
   vCompanyid : any; 
   vCategoryid : any;
+  showUserSelection: boolean = false;
   vSubcategoryid : any; 
   vSubstateid : any; 
   vCatalogue: any;
@@ -74,31 +78,25 @@ export class TicketComponent implements OnInit {
   cat_sys_id: any[] = []; 
   cat_urgency: any[] = [];
   selectedCatalog:any;
+  sysUsers:any;
 
   constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {
     this.ticketForm = this.fb.group({
-      user_id: [null, Validators.required],
-      title: [''],
-      status: [''],
-      categoryid: [null, Validators.required],
-      companyid: [null, Validators.required],
-      subcategoryid: [null, Validators.required],
-      substateid: [null, Validators.required],
-      priorityid: [null, Validators.required],
-      incidenttypeid: [null, Validators.required],
-      domainid: [null, Validators.required],
+      user_id: [null],
+      incidenttypeid: [null],
       created_at: [''],
       updated_at: [''],
-      shortdesc: ['', Validators.required],
-      description: ['', Validators.required],
-      cat_id:['', Validators.required],
-      planned_for:['', Validators.required],
-      contact_type:['', Validators.required],
-      applicant:['', Validators.required],
-      planned_rut:['', Validators.required],
+      shortdesc: [''],
+      description: [''],
+      cat_id:[''],
+      planned_for:[''],
+      contact_type:[''],
+      applicant:[''],
+      companyid:[''],
+      planned_rut:[''],
       phone_number:[''],
-      planned_email:['', Validators.required],
-      planned_charge:['', Validators.required]
+      planned_email:[''],
+      planned_charge:['']
     });
   }
 
@@ -150,6 +148,45 @@ export class TicketComponent implements OnInit {
     }
   }
 
+  searchApplicant() {
+    this.sysUsers = [];
+    const v_plnned_rut = this.ticketForm.value.planned_rut;
+    const v_company_id = this.ticketForm.value.companyid;
+    this.apiService.getSysUsers({ company_id: v_company_id, employee_number: v_plnned_rut }).subscribe(
+      (data) => {
+        this.sysUsers = data;
+
+        if (this.sysUsers.length > 1) {
+          this.showUserSelection = true;
+        } else if (this.sysUsers.length === 1) {
+          this.ticketForm.patchValue({ planned_for: this.sysUsers[0].user_name });
+          this.ticketForm.patchValue({ planned_email: this.sysUsers[0].email });
+          this.ticketForm.patchValue({ phone_number: this.sysUsers[0].mobile_phone });
+          this.ticketForm.patchValue({ planned_charge: this.sysUsers[0].title });
+        }
+      },
+      (error) => {
+      }
+    );
+  }
+
+  selectUser(user:any) {
+    this.ticketForm.patchValue({ planned_for: user.user_name });
+    this.ticketForm.patchValue({ planned_email: user.email });
+    this.ticketForm.patchValue({ phone_number: user.mobile_phone });
+    this.ticketForm.patchValue({ planned_charge: user.title });
+  
+  }
+
+  acceptUserSelection() {
+
+    this.showUserSelection = false;
+  }
+
+  cancelUserSelection() {
+    this.showUserSelection = false;
+  }
+
   selectCompany(company: any) {
     this.ticketForm.patchValue({
       companyid: company.companyid, 
@@ -174,7 +211,15 @@ export class TicketComponent implements OnInit {
 
   submit() {
     this.ticketForm.patchValue({ user_id: this.vUser_id });
-    if (this.ticketForm.valid) {
+    this.ticketForm.patchValue({ applicant: this.ticketForm.value.planned_for });
+    this.ticketForm.patchValue({ categoryid: 0 });
+    this.ticketForm.patchValue({ domainid: 0 });
+    this.ticketForm.patchValue({ priorityid: 0 });
+    this.ticketForm.patchValue({ subcategoryid: 0 });
+    this.ticketForm.patchValue({ substateid: 0 });
+
+
+//    if (this.ticketForm.valid) {
       this.apiService.createTicket(this.ticketForm.value).subscribe(
         response => {
           this.successMessage = 'Ticket guardado correctamente!';
@@ -188,10 +233,10 @@ export class TicketComponent implements OnInit {
           this.successMessage = ''; 
         }
       );
-    } else {
-      this.errorMessage = 'Por favor, completa todos los campos requeridos.';
-      this.successMessage = '';
-    }
+//    } else {
+//      this.errorMessage = 'Por favor, completa todos los campos requeridos.';
+//      this.successMessage = '';
+//    }
   }
 
   cancel(){

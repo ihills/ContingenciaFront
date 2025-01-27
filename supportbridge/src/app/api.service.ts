@@ -55,6 +55,10 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/domains`);
   }
 
+  getSysUsers(companyID : any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/sysusers`, companyID);
+  }
+
   getPriority(): Observable<any> {
     return this.http.get(`${this.apiUrl}/priority`);
   }

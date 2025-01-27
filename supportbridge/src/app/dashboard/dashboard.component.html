@@ -1,3 +1,38 @@
-<div class="dashboard-container text-center">
-  <a href="/ticket" class="btn" style="background-color: #f44336; color: white;">Crear Tickets</a>
+<div class="dashboard-container">
+  <div class="text-start mb-3">
+    <a href="/ticket" class="btn" style="background-color: #f44336; color: white;">Crear Tickets</a>
+  </div>
+
+  <div class="container">
+    <table class="table table-bordered table-hover shadow rounded-table">
+      <thead style="background-color: red; color: white;">
+        <tr>
+          <th>CLIENTE</th>
+          <th>SOLICITANTE</th>
+          <th>TIPO CONTACTO</th>
+          <th>PLANIFICADO PARA</th>
+          <th>MOTIVO FALLA</th>
+          <th>DESCRIPCIÓN FALLA</th>
+          <th>FECHA CREACIÓN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of dTickets">
+          <td>{{ ticket.cliente }}</td> 
+          <td>{{ ticket.solicitante }}</td>
+          <td>{{ ticket.tipo_contacto }}</td>
+          <td>
+            <div><strong>Nombre:</strong> {{ ticket.planificado_para }}</div>
+            <div><strong>R.U.T:</strong> {{ ticket.rut_planificado }}</div>
+            <div><strong>Email:</strong> {{ ticket.email_planificado }}</div>
+            <div><strong>Teléfono:</strong> {{ ticket.telefono_planificado }}</div>
+            <div><strong>Cargo:</strong> {{ ticket.cargo_planificado }}</div>
+          </td>
+          <td>{{ ticket.motivo_falla }}</td>
+          <td>{{ ticket.descripcion_falla }}</td>
+          <td>{{ ticket.fecha_creacion }}</td> 
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
